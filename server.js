@@ -106,7 +106,7 @@ app.use(session({
   store: new RedisStore({
     host: process.env.REDIS_HOST || 'localhost',
     port: process.env.REDIS_PORT || '6379',
-    auth: process.env.REDIS_PASSWORD || undefined,
+    auth_pass: process.env.REDIS_PASSWORD || undefined,
   }),
   // @see https://stackoverflow.com/questions/16434893/node-express-passport-req-user-undefined
   cookie: { secure: (sslOptions.length) }, // use secure cookies if SSL env vars are present
