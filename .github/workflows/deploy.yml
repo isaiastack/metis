@@ -11,7 +11,12 @@ jobs:
   build_and_push:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the repo <${{ env.DIGITALOCEAN_APP_TAG }}><${{ env.DIGITALOCEAN_APP_TAG2 }}>
+      - name: Test
+        env:
+          DIGITALOCEAN_REGISTRY: ${{ secrets.DIGITALOCEAN_REGISTRY }}
+          DIGITALOCEAN_APP_TAG: ${{ secrets.DIGITALOCEAN_APP_TAG }}
+        run: echo "$DIGITALOCEAN_REGISTRY:$DIGITALOCEAN_APP_TAG"
+      - name: Checkout the repo
         uses: actions/checkout@v2
       - name: Build image
         run: docker build -t metis .
