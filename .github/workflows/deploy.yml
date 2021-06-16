@@ -3,7 +3,7 @@ name: Build and publish manually
 on:
   push:
     branches:
-      - develop
+      - dev
       - main
   workflow_dispatch:
 
