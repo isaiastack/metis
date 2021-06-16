@@ -11,7 +11,7 @@ jobs:
   build_and_push:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the repo <${{ secrets.DIGITALOCEAN_APP_TAG }}><${{ secrets.DIGITALOCEAN_APP_TAG2 }}>
+      - name: Checkout the repo <${{ env.DIGITALOCEAN_APP_TAG }}><${{ env.DIGITALOCEAN_APP_TAG2 }}>
         uses: actions/checkout@v2
       - name: Build image
         run: docker build -t metis .
