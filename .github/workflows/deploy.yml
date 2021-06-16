@@ -12,9 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test
-        env:
-          DIGITALOCEAN_REGISTRY: ${{ secrets.DIGITALOCEAN_REGISTRY }}
-          DIGITALOCEAN_APP_TAG: ${{ secrets.DIGITALOCEAN_APP_TAG }}
         run: echo "$DIGITALOCEAN_REGISTRY:$DIGITALOCEAN_APP_TAG"
       - name: Checkout the repo
         uses: actions/checkout@v2
