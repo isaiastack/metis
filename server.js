@@ -15,7 +15,11 @@ require('babel-register')({
 const express = require('express');
 
 const app = express();
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 4000;
+
+const pingTimeout = 6000000;
+
+const pingInterval = 30000;
 
 // Loads job queue modules and variables
 
@@ -23,6 +27,7 @@ const jobs = kue.createQueue({
   redis: {
     host: process.env.REDIS_HOST || 'localhost',
     port: process.env.REDIS_PORT || '6379',
+    auth: process.env.REDIS_PASSWORD || undefined,
   },
 });
 
@@ -101,6 +106,7 @@ app.use(session({
   store: new RedisStore({
     host: process.env.REDIS_HOST || 'localhost',
     port: process.env.REDIS_PORT || '6379',
+    auth_pass: process.env.REDIS_PASSWORD || undefined,
   }),
   // @see https://stackoverflow.com/questions/16434893/node-express-passport-req-user-undefined
   cookie: { secure: (sslOptions.length) }, // use secure cookies if SSL env vars are present
@@ -118,8 +124,12 @@ const server = Object.keys(sslOptions).length >= 2
 // Enables websocket
 const socketIO = require('socket.io');
 
-const io = socketIO(server);
-module.exports.io = socketIO(server);
+const socketOptioins = {
+  pingTimeout, // pingTimeout value to consider the connection closed
+  pingInterval, // how many ms before sending a new ping packet
+};
+const io = socketIO(server, socketOptioins);
+module.exports.io = socketIO(server, socketOptioins);
 require('./sockets/socket');
 const logger = require('./utils/logger')(module);
 
@@ -188,6 +198,7 @@ mongoose.connect(process.env.URL_DB, mongoDBOptions, (err, resp) => {
 
 // Tells server to listen to port 4000 when app is initialized
 server.listen(port, () => {
+  logger.info(JSON.stringify(process.memoryUsage()));
   logger.info('');
   logger.info('_________________________________________________________________');
   logger.info(' ▄▄       ▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄ ');
