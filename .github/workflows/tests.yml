@@ -10,14 +10,29 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [ 10.x ]
+        node: [ '10' ]
+    name: Node ${{ matrix.node }} sample
     steps:
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ matrix.node }}
       - run: npm install
       - run: npm test
+
+#    strategy:
+#      matrix:
+#        node-version: [ 10.x ]
+#    steps:
+##      - name: aaa
+#      - uses: actions/checkout@v2
+##      - name: Use Node.js ${{ matrix.node-version }}
+#      - uses: actions/setup-node@v2
+#        with:
+#          node-version: ${{ matrix.node-version }}
+#      - run: npm install
+#      - run: npm test
 
 #      - name: Test failed notification Slack
 #        if: failure()
