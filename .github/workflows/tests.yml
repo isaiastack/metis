@@ -2,7 +2,7 @@ name: Metis Test
 
 on:
   push:
-    branches: [ feature/tests ]
+    branches: [ feature/devops-tests ]
   workflow_dispatch:
 
 jobs:
@@ -13,7 +13,7 @@ jobs:
         node-version: [ 10.x ]
     steps:
       - name: Use Node.js ${{ matrix.node-version }}
-      - uses: actions/setup-node@v1
+        uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
