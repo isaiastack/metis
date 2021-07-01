@@ -2,12 +2,12 @@ name: Build and publish Metis Dev
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ feature/devops-test ]
   workflow_dispatch:
 
 jobs:
   build_and_push:
-    environment: dev
+    environment: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
